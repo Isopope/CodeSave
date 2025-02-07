@@ -9,20 +9,48 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
+      },
+      projectId: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'Projects',
+          key: 'id'
+        },
+        onDelete: 'SET NULL'
+      },
       title: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(120),
+        allowNull: false
       },
       code: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        allowNull: false
       },
       description: {
         type: Sequelize.TEXT
       },
-      visibility: {
-        type: Sequelize.ENUM
+      categoryId: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'Categories',
+          key: 'id'
+        },
+        onDelete: 'SET NULL'
       },
-      category_id: {
-        type: Sequelize.INTEGER
+      visibility: {
+        type: Sequelize.ENUM('public', 'private', 'shared'),
+        allowNull: false,
+        defaultValue: 'private'
       },
       createdAt: {
         allowNull: false,

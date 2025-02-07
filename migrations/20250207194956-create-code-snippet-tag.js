@@ -9,20 +9,37 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      code_snippet_id: {
-        type: Sequelize.INTEGER
+      codeSnippetId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'CodeSnippets',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
       },
-      tag_id: {
-        type: Sequelize.INTEGER
+      tagId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Tags',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
       }
+    });
+    await queryInterface.addConstraint('CodeSnippetTags', {
+      fields: ['codeSnippetId', 'tagId'],
+      type: 'primary key'
     });
   },
   async down(queryInterface, Sequelize) {
